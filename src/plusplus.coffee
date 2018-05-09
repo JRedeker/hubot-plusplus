@@ -1,5 +1,5 @@
 # Description:
-#   Give or take away points. Keeps track and even prints out graphs.
+#   Give or take away salt-points. Keeps track and even prints out graphs.
 #
 # Dependencies:
 #   "underscore": ">= 1.0.0"
@@ -73,14 +73,14 @@ module.exports = (robot) ->
     if score?
       message = if reason?
                   if reasonScore == 1 or reasonScore == -1
-                    "#{name} has #{score} points, #{reasonScore} of which is for #{reason}."
+                    "#{name} has #{score} salt-points, #{reasonScore} of which is for #{reason}."
                   else
-                    "#{name} has #{score} points, #{reasonScore} of which are for #{reason}."
+                    "#{name} has #{score} salt-points, #{reasonScore} of which are for #{reason}."
                 else
                   if score == 1
                     "#{name} has #{score} point"
                   else
-                    "#{name} has #{score} points"
+                    "#{name} has #{score} salt-points"
 
 
       msg.send message
@@ -124,7 +124,7 @@ module.exports = (robot) ->
       message = if reason?
                   "Erased the following reason from #{name}: #{reason}"
                 else
-                  "Erased points for #{name}"
+                  "Erased salt-points for #{name}"
       msg.send message
 
   robot.respond /score (for\s)?(.*)/i, (msg) ->
@@ -133,12 +133,12 @@ module.exports = (robot) ->
     reasons = scoreKeeper.reasonsForUser(name)
 
     reasonString = if typeof reasons == 'object' && Object.keys(reasons).length > 0
-                     "#{name} has #{score} points. here are some raisins:" +
+                     "#{name} has #{score} salt-points. here are some raisins:" +
                      _.reduce(reasons, (memo, val, key) ->
-                       memo += "\n#{key}: #{val} points"
+                       memo += "\n#{key}: #{val} salt-points"
                      , "")
                    else
-                     "#{name} has #{score} points."
+                     "#{name} has #{score} salt-points."
 
     msg.send reasonString
 
@@ -160,7 +160,7 @@ module.exports = (robot) ->
 
     msg.send message.join("\n")
 
-  robot.router.get "/#{robot.name}/normalize-points", (req, res) ->
+  robot.router.get "/#{robot.name}/normalize-salt-points", (req, res) ->
     scoreKeeper.normalize((score) ->
       if score > 0
         score = score - Math.ceil(score / 10)
